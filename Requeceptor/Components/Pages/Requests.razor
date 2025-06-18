@@ -62,7 +62,7 @@ else
 
         <div>
             <label class="form-label">Page Size</label>
-            <input type="number" class="form-control" @bind="PageSize" min="1" style="width: 100px;" step="10"  />
+            <input type="number" class="form-control" @bind="PageSize" min="1" style="width: 100px;" step="10" />
         </div>
 
         <div>
@@ -77,6 +77,8 @@ else
             <tr>
                 <th></th>
                 <th>Time</th>
+                <th>Project</th>
+                <th>Host</th>
                 <th>Method</th>
                 <th>Path</th>
                 <th>Query</th>
@@ -96,6 +98,8 @@ else
                         </button>
                     </td>
                     <td>@request.ReceivedAt.ToString()</td>
+                    <td>@request.Project</td>
+                    <td>@request.Host</td>
                     <td>@request.Method</td>
                     <td>@request.Path</td>
                     <td>@request.QueryString</td>
@@ -104,8 +108,8 @@ else
                     <td>@request.ContentLength</td>
                 </tr>
                 <tr id="body-row-@currentIndex" style="display:none;">
-                    <td colspan="8" class="bg-light">
-                        <pre>@request.Body</pre>
+                    <td colspan="10" class="bg-light">                        
+                                <pre class="pre-wrap">@FormatBody(request.Body)</pre>
                     </td>
                 </tr>
             }

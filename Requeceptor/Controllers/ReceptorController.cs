@@ -64,6 +64,16 @@ public class ReceptorController : ControllerBase
 
     private Task<IActionResult> HandleXml(string? methodName)
     {
-        return Task.FromResult<IActionResult>(Ok($"XML primljen. SOAP metoda: {methodName ?? "Nepoznata"}"));
+        string _soapOkResponse = @"<?xml version=""1.0"" encoding=""utf-8""?>
+<soap:Envelope xmlns:soap=""http://schemas.xmlsoap.org/soap/envelope/"">
+  <soap:Body>
+    <LogResponse xmlns=""http://tempuri.org/"">
+      <Result>OK</Result>
+    </LogResponse>
+  </soap:Body>
+</soap:Envelope>";
+
+        return Task.FromResult<IActionResult>(Content(_soapOkResponse, "text/xml"));
+        //return Task.FromResult<IActionResult>(Ok($"XML primljen. SOAP metoda: {methodName ?? "Nepoznata"}"));
     }
 }

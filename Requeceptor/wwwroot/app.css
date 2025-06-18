@@ -1,5 +1,11 @@
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    margin: 0;
+    font-family: "Segoe UI",SegoeUI,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1;
+    color: #000;
+    background-color: #fff;
 }
 
 a, .btn-link {
@@ -48,4 +54,12 @@ h1:focus {
 
 .darker-border-checkbox.form-check-input {
     border-color: #929292;
+}
+
+.pre-wrap {
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-x: auto;
+    max-width: 100%;
+    line-height: 1.5;
 }

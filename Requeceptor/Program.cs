@@ -5,49 +5,48 @@ using Requeceptor.Services.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Uèitavanje konfiguracije s environment-specific json
 var environment = builder.Environment.EnvironmentName;
 builder.Configuration
     .SetBasePath(Directory.GetCurrentDirectory())
     .AddJsonFile($"appsettings.{environment}.json", optional: false, reloadOnChange: true);
 
-// 1. Servisi
-builder.Services.AddControllers(); // Dodaj ovo ako koristiš [ApiController]
+// 1. Registracija servisa
+builder.Services.AddControllers(); // Za API kontrolere s [ApiController]
+// Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 builder.Services.AddDbContext<DatabaseContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-
 builder.Services.AddRequeceptor();
+
 var app = builder.Build();
 
-// 2. Middleware
+// 2. Middleware konfiguracija
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
     app.UseHsts();
 }
 
-//app.UseHttpsRedirection();
+// app.UseHttpsRedirection(); // Ako koristiš HTTPS, odkomentiraj
 app.UseStaticFiles();
 
-app.UseRouting(); // VAŽNO: prije MapEndpoints()
+app.UseRouting();
 
 app.UseAntiforgery();
 
-// 3. Route mapping
-app.MapRazorComponents<App>() // Blazor entry point
-    .AddInteractiveServerRenderMode();
+// 3. Mapiranje ruta i Blazor komponente
+app.MapRazorComponents<App>()
+   .AddInteractiveServerRenderMode();
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers();
+app.MapControllers();
 
-    endpoints.MapControllerRoute(
-        name: "Receptor",
-        pattern: "r/{*path}",
-        defaults: new { controller = "Receptor", action = "CatchAll" });
-});
+app.MapControllerRoute(
+    name: "Receptor",
+    pattern: "r/{*path}",
+    defaults: new { controller = "Receptor", action = "CatchAll" });
 
 app.Run();
