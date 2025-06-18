@@ -94,7 +94,7 @@ else
                 <tr>
                     <td>
                         <button class="btn btn-sm btn-link" onclick="toggleBody(@currentIndex)">
-                            <i class="bi bi-eye"></i>
+                            <strong>↓</strong>
                         </button>
                     </td>
                     <td>@request.ReceivedAt.ToString()</td>
@@ -108,10 +108,38 @@ else
                     <td>@request.ContentLength</td>
                 </tr>
                 <tr id="body-row-@currentIndex" style="display:none;">
-                    <td colspan="10" class="bg-light">                        
+                    <td colspan="10" class="bg-light">
+                        <ul class="nav nav-tabs" id="myTab-@currentIndex" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="tab1-tab-@currentIndex" data-bs-toggle="tab" data-bs-target="#tab1-@currentIndex" type="button" role="tab" aria-controls="tab1-@currentIndex" aria-selected="true">
+                                    Body
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="tab2-tab-@currentIndex" data-bs-toggle="tab" data-bs-target="#tab2-@currentIndex" type="button" role="tab" aria-controls="tab2-@currentIndex" aria-selected="false">
+                                    Headers
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="tab3-tab-@currentIndex" data-bs-toggle="tab" data-bs-target="#tab3-@currentIndex" type="button" role="tab" aria-controls="tab3-@currentIndex" aria-selected="false">
+                                    Cookies
+                                </button>
+                            </li>
+                        </ul>
+                        <div class="tab-content mt-2" id="myTabContent-@currentIndex">
+                            <div class="tab-pane fade show active" id="tab1-@currentIndex" role="tabpanel" aria-labelledby="tab1-tab-@currentIndex">
                                 <pre class="pre-wrap">@FormatBody(request.Body)</pre>
+                            </div>
+                            <div class="tab-pane fade" id="tab2-@currentIndex" role="tabpanel" aria-labelledby="tab2-tab-@currentIndex">
+                                <pre class="pre-wrap">@request.Headers</pre>
+                            </div>
+                            <div class="tab-pane fade" id="tab3-@currentIndex" role="tabpanel" aria-labelledby="tab3-tab-@currentIndex">
+                                <pre class="pre-wrap">@request.Cookies</pre>
+                            </div>
+                        </div>
                     </td>
                 </tr>
+
             }
         </tbody>
     </table>

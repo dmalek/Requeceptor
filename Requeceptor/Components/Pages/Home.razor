@@ -1,7 +1,43 @@
 ﻿@page "/"
 
-<PageTitle>Home</PageTitle>
+<PageTitle>RequestReceptor</PageTitle>
 
-<h1>Hello, world!</h1>
-
-Welcome to your new app.
+<h1>📥 RequestReceptor</h1>
+<p><strong>RequestReceptor</strong> is a modular and extensible .NET component for inspecting and logging incoming HTTP requests. It supports multiple request formats (JSON, XML, SOAP) and is designed to be part of a request monitoring system with a future Blazor-based user interface.</p>
+<hr />
+<h2>✨ Features</h2>
+<ul>
+    <li>✅ Parses and inspects incoming HTTP requests</li>
+    <li>✅ Supports JSON and XML (including SOAP) body formats</li>
+    <li>✅ Detects action name from request body or route</li>
+    <li>✅ Extracts full request metadata (headers, cookies, IP addresses, etc.)</li>
+    <li>✅ Extensible with custom format parsers via the Strategy Pattern</li>
+    <li>✅ Built-in integration with ASP.NET Core (<code>HttpContext</code>, <code>RouteData</code>, <code>HttpRequest</code>)</li>
+</ul>
+<hr />
+<h2>🧩 Use Case</h2>
+<p>This library is a core component of a larger system that:</p>
+<ul>
+    <li>Receives HTTP requests</li>
+    <li>Logs and stores request details</li>
+    <li>Allows users to review requests via a Blazor UI (under development)</li>
+    <li>Enables filtering, searching, and auditing of requests</li>
+</ul>
+<hr />
+<h2>🛠️ Technologies Used</h2>
+<ul>
+    <li>.NET 8.0+</li>
+    <li>ASP.NET Core</li>
+    <li>Dependency Injection</li>
+    <li>Strategy Pattern</li>
+    <li>Blazor (for future UI)</li>
+</ul>
+<hr />
+<h2>📦 Planned Features</h2>
+<ul>
+    <li>🔍 Web dashboard (Blazor) for request browsing and filtering</li>
+    <li>🧠 Smart format detection and parsing (SOAP-aware XML)</li>
+    <li>🗂️ Storage support (in-memory, file-based, or EF Core)</li>
+    <li>📤 Export request data to JSON/XML</li>
+    <li>🔐 Optional authentication for secure access to UI</li>
+</ul>
