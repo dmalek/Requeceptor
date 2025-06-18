@@ -2,7 +2,7 @@
 using Requeceptor.Domain;
 using Requeceptor.Services;
 using Requeceptor.Services.Parsers;
-using Requeceptor.Services.RequestLoggers;
+using Requeceptor.Services.Persistence;
 
 namespace Requeceptor.Controllers;
 
@@ -11,14 +11,14 @@ namespace Requeceptor.Controllers;
 [Route("r/{project}/{*path}")]// hvata sve unutar /r/*/*
 public class ReceptorController : ControllerBase
 {
-    private readonly IRequestLoggerService _requestLoggerService;
+    private readonly IPersistenceService _requestLoggerService;
     private readonly IEnumerable<IRequestParser> _parsers;
     private readonly ILogger<ReceptorController> _logger;
 
     public ReceptorController(
         ILogger<ReceptorController> logger,
         IEnumerable<IRequestParser> parsers,
-        IRequestLoggerService requestLoggerService
+        IPersistenceService requestLoggerService
         )
     {
         _logger = logger;

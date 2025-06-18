@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Requeceptor.Domain;
 
-namespace Requeceptor.Services;
+namespace Requeceptor.Services.Persistence;
 
 public class DatabaseContext : DbContext
 {

@@ -1,0 +1,127 @@
+﻿@page "/requests"
+@attribute [StreamRendering]
+@rendermode InteractiveServer
+
+<PageTitle>Requests</PageTitle>
+
+<h1>Requests</h1>
+
+@{
+    var rowIndex = 0;
+}
+
+@if (_requests == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="d-flex flex-wrap align-items-end gap-2 my-3">
+
+        <div>
+            <label class="form-label">Project</label>
+            <select class="form-select" @bind="Project" placeholder="Project">
+                <option value=""></option>
+                @foreach (var p in _projects)
+                {
+                    <option value="@p">@p</option>
+                }
+            </select>
+        </div>
+
+        <div>
+            <label class="form-label">Host</label>
+            <select class="form-select" @bind="Host" placeholder="Host">
+                <option value=""></option>
+                @foreach (var p in _hosts)
+                {
+                    <option value="@p">@p</option>
+                }
+            </select>
+        </div>
+
+        <div>
+            <label class="form-label">Path</label>
+            <input type="text" class="form-control" @bind="Path" placeholder="Path" />
+        </div>
+
+        <div>
+            <label class="form-label">Action</label>
+            <input type="text" class="form-control" @bind="Action" placeholder="Action" />
+        </div>
+
+        <div>
+            <label class="form-label">Query</label>
+            <input type="text" class="form-control" @bind="Query" placeholder="Query" />
+        </div>
+
+        <div>
+            <label class="form-label">Page</label>
+            <input type="number" class="form-control" @bind="PageIndex" min="0" style="width: 80px;" />
+        </div>
+
+        <div>
+            <label class="form-label">Page Size</label>
+            <input type="number" class="form-control" @bind="PageSize" min="1" style="width: 100px;" step="10"  />
+        </div>
+
+        <div>
+            <button class="btn btn-primary mt-4" @onclick="LoadRequests">Apply</button>
+        </div>
+
+    </div>
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Time</th>
+                <th>Method</th>
+                <th>Path</th>
+                <th>Query</th>
+                <th>Action</th>
+                <th>Content Type</th>
+                <th>Content Length</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var request in _requests.Items)
+            {
+                var currentIndex = rowIndex++;
+                <tr>
+                    <td>
+                        <button class="btn btn-sm btn-link" onclick="toggleBody(@currentIndex)">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                    </td>
+                    <td>@request.ReceivedAt.ToString()</td>
+                    <td>@request.Method</td>
+                    <td>@request.Path</td>
+                    <td>@request.QueryString</td>
+                    <td>@request.Action</td>
+                    <td>@request.ContentType</td>
+                    <td>@request.ContentLength</td>
+                </tr>
+                <tr id="body-row-@currentIndex" style="display:none;">
+                    <td colspan="8" class="bg-light">
+                        <pre>@request.Body</pre>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+<script>
+    function toggleBody(index) {
+        var row = document.getElementById("body-row-" + index);
+        if (row.style.display === "none") {
+            row.style.display = "table-row";
+        } else {
+            row.style.display = "none";
+        }
+    }
+</script>
+

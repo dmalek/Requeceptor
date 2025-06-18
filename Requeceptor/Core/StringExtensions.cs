@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Text.RegularExpressions;
 
-namespace Requeceptor.Extensions;
+namespace Requeceptor.Core;
 
 public static class StringExtensions
 {
@@ -38,7 +38,7 @@ public static class StringExtensions
                 // Cast ConvertFromString(string text) : object to (T)
                 return (T?)converter.ConvertFromString(input);
             }
-            return default(T);
+            return default;
         }
         catch (NotSupportedException)
         {
@@ -51,7 +51,7 @@ public static class StringExtensions
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    public static string? NullIfEmpty(this string? value) => (string.IsNullOrWhiteSpace(value)) ? null : value;
+    public static string? NullIfEmpty(this string? value) => string.IsNullOrWhiteSpace(value) ? null : value;
 
     /// <summary>
     /// Uspoređuje dva stringa ignorirajući razliku između velikigh i malih slova.
@@ -67,7 +67,7 @@ public static class StringExtensions
     /// <param name="value"></param>
     /// <param name="length"></param>
     /// <returns></returns>
-    public static string Right(this string value, int length) => (!string.IsNullOrEmpty(value)) ? value.Substring(value.Length - length) : value;
+    public static string Right(this string value, int length) => !string.IsNullOrEmpty(value) ? value.Substring(value.Length - length) : value;
 
     /// <summary>
     /// Uzmi <b>length</b> broj znakova s lijeva.
@@ -75,7 +75,7 @@ public static class StringExtensions
     /// <param name="value"></param>
     /// <param name="length"></param>
     /// <returns></returns>
-    public static string Left(this string value, int length) => (!string.IsNullOrEmpty(value)) ? value.Substring(0, Math.Min(length, value.Length)) : value;
+    public static string Left(this string value, int length) => !string.IsNullOrEmpty(value) ? value.Substring(0, Math.Min(length, value.Length)) : value;
 
     /// <summary>
     /// Ponovi string <b>count</b> puta

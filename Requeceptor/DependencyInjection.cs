@@ -1,5 +1,5 @@
 ﻿using Requeceptor.Services.Parsers;
-using Requeceptor.Services.RequestLoggers;
+using Requeceptor.Services.Persistence;
 
 namespace Requeceptor;
 
@@ -11,7 +11,7 @@ public static class DependencyInjection
         services.AddSingleton<IRequestParser, JsonRequestParser>();
         services.AddSingleton<IRequestParser, XmlRequestParser>();
 
-        services.AddScoped<IRequestLoggerService, DatabaseRequestLoggerService>();
+        services.AddScoped<IPersistenceService, DatabaseService>();
 
         return services;
     }

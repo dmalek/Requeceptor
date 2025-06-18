@@ -1,9 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using Requeceptor;
 using Requeceptor.Components;
-using Requeceptor.Services;
+using Requeceptor.Services.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var environment = builder.Environment.EnvironmentName;
+builder.Configuration
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile($"appsettings.{environment}.json", optional: false, reloadOnChange: true);
 
 // 1. Servisi
 builder.Services.AddControllers(); // Dodaj ovo ako koristiš [ApiController]
@@ -24,7 +29,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting(); // VAŽNO: prije MapEndpoints()
