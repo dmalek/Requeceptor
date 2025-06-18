@@ -16,7 +16,6 @@ public class DatabaseContext : DbContext
         modelBuilder.Entity<RequestRecord>(entity =>
         {
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
-            //entity.Property(e => e.ReceivedAt).HasDefaultValueSql("GETDATE()");
         });
     }
 }

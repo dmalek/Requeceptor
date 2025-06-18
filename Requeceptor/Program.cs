@@ -17,10 +17,7 @@ builder.Services.AddControllers(); // Za API kontrolere s [ApiController]
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddDbContext<DatabaseContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-builder.Services.AddRequeceptor();
+builder.Services.AddRequeceptor(builder.Configuration);
 
 var app = builder.Build();
 
@@ -42,11 +39,8 @@ app.UseAntiforgery();
 app.MapRazorComponents<App>()
    .AddInteractiveServerRenderMode();
 
+app.InitializePersistence(); // Inicijalizacija baze podataka
+
 app.MapControllers();
-
-app.MapControllerRoute(
-    name: "Receptor",
-    pattern: "r/{*path}",
-    defaults: new { controller = "Receptor", action = "CatchAll" });
-
+app.MapRequeceptorRoute();
 app.Run();
