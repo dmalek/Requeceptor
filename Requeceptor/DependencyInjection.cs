@@ -19,11 +19,11 @@ public static class DependencyInjection
                 case "sqlserver":
                     options.UseSqlServer(connectionString);
                     break;
-                case "postgresql":
-                    options.UseNpgsql(connectionString);
-                    break;
                 case "sqlite":
                     options.UseSqlite(connectionString);
+                    break;
+                case "inmemory":
+                    options.UseInMemoryDatabase("Requeceptor.db");
                     break;
                 default:
                     throw new InvalidOperationException($"Unsupported provider: {provider}");

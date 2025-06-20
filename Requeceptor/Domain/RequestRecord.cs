@@ -7,10 +7,7 @@ public class RequestRecord
     [Key]
     public int Id { get; set; }
 
-    [MaxLength(255)]
-    public string Project { get; set; }
-
-    [MaxLength(10)]
+     [MaxLength(10)]
     public string Scheme { get; set; }
 
     [MaxLength(255)]

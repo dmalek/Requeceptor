@@ -8,7 +8,7 @@ namespace Requeceptor.Controllers;
 
 [ApiController]
 //[Route("{*path}")] // Hvatamo sve rute
-[Route("r/{project}/{*path}")]// hvata sve unutar /r/*/*
+[Route("r/{*path}")]// hvata sve unutar /r/*/*
 public class ReceptorController : ControllerBase
 {
     private readonly IPersistenceService _requestLoggerService;
@@ -37,11 +37,6 @@ public class ReceptorController : ControllerBase
     {
         var receptorRequest = new RequestReceptor(Request, RouteData, HttpContext, _parsers);
         await receptorRequest.Inspect();
-
-        if (string.IsNullOrEmpty(receptorRequest.Project))
-        {
-            return BadRequest("Unknown project.");
-        }
 
         await _requestLoggerService.SaveAsync(receptorRequest.ToRequestRecord());
 

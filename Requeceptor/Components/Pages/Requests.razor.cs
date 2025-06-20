@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.EntityFrameworkCore;
 using Requeceptor.Core;
 using Requeceptor.Domain;
 using Requeceptor.Services.Persistence;
@@ -11,14 +12,10 @@ namespace Requeceptor.Components.Pages;
 public partial class Requests
 {
     private PaginatedList<RequestRecord>? _requests = null;
-    private List<string> _projects = new();
-    private List<string> _hosts = new();
 
     [Inject]
     private IPersistenceService? PersistenceService { get; set; }
 
-    private string? Project { get; set; }
-    private string? Host { get; set; }
     private string? Path { get; set; }
     private string? Action { get; set; }
     private string? Query { get; set; }
@@ -45,18 +42,13 @@ public partial class Requests
             return;
         }
         var query = PersistenceService.Requests();
-        query = query.Case(!string.IsNullOrEmpty(Project), x => x.Project.Contains(Project));
-        query = query.Case(!string.IsNullOrEmpty(Host), x => x.Host.Contains(Host));
-        query = query.Case(!string.IsNullOrEmpty(Path), x => x.Path.Contains(Path));
-        query = query.Case(!string.IsNullOrEmpty(Action), x => x.Action.Contains(Action));
-        query = query.Case(!string.IsNullOrEmpty(Query), x => x.QueryString.Contains(Query));
+        query = query.Case(!string.IsNullOrEmpty(Path), x => EF.Functions.Like(x.Path, Path.Replace("*", "%")));
+        query = query.Case(!string.IsNullOrEmpty(Action), x => EF.Functions.Like(x.Action, Action.Replace("*", "%")));
+        query = query.Case(!string.IsNullOrEmpty(Query), x => x.QueryString.Contains(Query.Replace("*", "%")));
 
         _requests = query
             .OrderByDescending(x => x.ReceivedAt)
             .ToPaginatedList(PageIndex, PageSize);
-
-        _projects = await PersistenceService.Projects();
-        _hosts = await PersistenceService.Hosts();
 
         StateHasChanged();
     }

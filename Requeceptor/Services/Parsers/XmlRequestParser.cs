@@ -16,6 +16,11 @@ public class XmlRequestParser : IRequestParser
 
     public string? GetActionName(HttpRequest request, string body)
     {
+        if (request.Headers.TryGetValue("SOAPAction", out var soapAction))
+        {
+            return soapAction.FirstOrDefault()?.Trim('"');
+        }
+
         try
         {
             var xmlDoc = new XmlDocument();

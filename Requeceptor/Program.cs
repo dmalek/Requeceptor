@@ -41,6 +41,6 @@ app.MapRazorComponents<App>()
 
 app.InitializePersistence(); // Inicijalizacija baze podataka
 
-app.MapControllers();
 app.MapRequeceptorRoute();
+app.MapControllers();
 app.Run();

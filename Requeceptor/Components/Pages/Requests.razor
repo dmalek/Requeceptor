@@ -17,29 +17,6 @@
 else
 {
     <div class="d-flex flex-wrap align-items-end gap-2 my-3">
-
-        <div>
-            <label class="form-label">Project</label>
-            <select class="form-select" @bind="Project" placeholder="Project">
-                <option value=""></option>
-                @foreach (var p in _projects)
-                {
-                    <option value="@p">@p</option>
-                }
-            </select>
-        </div>
-
-        <div>
-            <label class="form-label">Host</label>
-            <select class="form-select" @bind="Host" placeholder="Host">
-                <option value=""></option>
-                @foreach (var p in _hosts)
-                {
-                    <option value="@p">@p</option>
-                }
-            </select>
-        </div>
-
         <div>
             <label class="form-label">Path</label>
             <input type="text" class="form-control" @bind="Path" placeholder="Path" />
@@ -77,8 +54,6 @@ else
             <tr>
                 <th></th>
                 <th>Time</th>
-                <th>Project</th>
-                <th>Host</th>
                 <th>Method</th>
                 <th>Path</th>
                 <th>Query</th>
@@ -98,8 +73,6 @@ else
                         </button>
                     </td>
                     <td>@request.ReceivedAt.ToString()</td>
-                    <td>@request.Project</td>
-                    <td>@request.Host</td>
                     <td>@request.Method</td>
                     <td>@request.Path</td>
                     <td>@request.QueryString</td>

@@ -24,24 +24,4 @@ public class DatabaseService : IPersistenceService
     {
         return _db.Requests;
     }
-
-    public Task<List<string>> Projects()
-    {
-        return _db.Requests
-            .Where( x => !string.IsNullOrEmpty(x.Project))  
-            .Select( x => x.Project)
-            .Distinct()
-            .OrderBy(x => x)
-            .ToListAsync();
-    }
-
-    public Task<List<string>> Hosts()
-    {
-        return _db.Requests
-            .Where(x => !string.IsNullOrEmpty(x.Host))
-            .Select(x => x.Host)
-            .Distinct()
-            .OrderBy(x => x)
-            .ToListAsync();
-    }
 }

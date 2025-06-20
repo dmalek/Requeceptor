@@ -10,7 +10,6 @@ public class RequestReceptor
     private readonly HttpRequest _request;
     private readonly IEnumerable<IRequestParser> _parsers;
 
-    private string? _project;
     private string? _body;
     private IRequestParser? _parser;
     private string? _actionName;
@@ -18,7 +17,6 @@ public class RequestReceptor
     public string? Body => _body;
     public string? ActionName => _actionName;
     public RequestFormat RequestFormat => _parser?.Format ?? RequestFormat.Unknown;
-    public string? Project => _project;
 
     public RequestReceptor(HttpRequest request, RouteData routeData, HttpContext httpContext, IEnumerable<IRequestParser> parsers)
     {
@@ -31,8 +29,6 @@ public class RequestReceptor
 
     public async Task Inspect()
     {
-        _project = _routeData.Values["project"]?.ToString();
-
         // Read the request body
         using var reader = new StreamReader(_request.Body, leaveOpen: true);
         _body = await reader.ReadToEndAsync();
@@ -50,7 +46,6 @@ public class RequestReceptor
     {
         return new RequestRecord
         {
-            Project = _project,
             Scheme = _httpContext.Request.Scheme,
             Host = _httpContext.Request.Host.Value,
             Path = _httpContext.Request.Path,
