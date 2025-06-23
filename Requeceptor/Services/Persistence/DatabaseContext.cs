@@ -10,10 +10,16 @@ public class DatabaseContext : DbContext
     {
     }
     public DbSet<RequestRecord> Requests { get; set; }
+    public DbSet<RuleRecord> Rules { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<RequestRecord>(entity =>
+        {
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
+        });
+
+        modelBuilder.Entity<RuleRecord>(entity =>
         {
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
         });

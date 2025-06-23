@@ -17,7 +17,7 @@
 else
 {
     <div class="d-flex flex-wrap align-items-end gap-2 my-3">
-        <div>
+        <div class="flex-grow-1">
             <label class="form-label">Path</label>
             <input type="text" class="form-control" @bind="Path" placeholder="Path" />
         </div>
@@ -31,17 +31,6 @@ else
             <label class="form-label">Query</label>
             <input type="text" class="form-control" @bind="Query" placeholder="Query" />
         </div>
-
-        <div>
-            <label class="form-label">Page</label>
-            <input type="number" class="form-control" @bind="PageIndex" min="0" style="width: 80px;" />
-        </div>
-
-        <div>
-            <label class="form-label">Page Size</label>
-            <input type="number" class="form-control" @bind="PageSize" min="1" style="width: 100px;" step="10" />
-        </div>
-
         <div>
             <button class="btn btn-primary mt-4" @onclick="LoadRequests">Apply</button>
         </div>
@@ -112,9 +101,35 @@ else
                         </div>
                     </td>
                 </tr>
-
             }
-        </tbody>
+        </tbody>     
+        <tfoot>
+            <tr>
+                <td colspan="8">
+                    <div class="d-flex flex-wrap align-items-end justify-content-end gap-2 my-3">
+                        <div>
+                            <label class="form-label">Page</label>
+                            <input type="number" class="form-control" @bind="PageIndex" min="0" style="width: 80px;" />
+                        </div>
+
+                        <div>
+                            <label class="form-label">Page Size</label>
+                            <select class="form-select" @bind="PageSize" style="width: 100px;">
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <button class="btn btn-primary mt-4" @onclick="LoadRequests">Apply</button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            
+        </tfoot>
     </table>
 }
 

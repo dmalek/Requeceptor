@@ -6,5 +6,7 @@ public interface IPersistenceService
 {
     Task SaveAsync(RequestRecord request);
 
-    IQueryable<RequestRecord> Requests();
+    IQueryable<RequestRecord> Requests { get; }
+
+    IQueryable<RuleRecord> Rules { get; }
 }

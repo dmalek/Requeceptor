@@ -20,8 +20,7 @@ public class DatabaseService : IPersistenceService
         await _db.SaveChangesAsync();
     }
 
-    public IQueryable<RequestRecord> Requests()
-    {
-        return _db.Requests;
-    }
+    public IQueryable<RequestRecord> Requests => _db.Requests;
+
+    public IQueryable<RuleRecord> Rules => _db.Rules;
 }

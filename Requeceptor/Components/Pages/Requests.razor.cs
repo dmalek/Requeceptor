@@ -41,7 +41,7 @@ public partial class Requests
         {
             return;
         }
-        var query = PersistenceService.Requests();
+        var query = PersistenceService.Requests;
         query = query.Case(!string.IsNullOrEmpty(Path), x => EF.Functions.Like(x.Path, Path.Replace("*", "%")));
         query = query.Case(!string.IsNullOrEmpty(Action), x => EF.Functions.Like(x.Action, Action.Replace("*", "%")));
         query = query.Case(!string.IsNullOrEmpty(Query), x => x.QueryString.Contains(Query.Replace("*", "%")));

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Requeceptor.Services.Parsers;
 using Requeceptor.Services.Persistence;
+using Requeceptor.Services.Responses;
 
 namespace Requeceptor;
 
@@ -30,10 +31,11 @@ public static class DependencyInjection
             }
         });
 
+        services.AddScoped<IPersistenceService, DatabaseService>();
         services.AddSingleton<IRequestParser, JsonRequestParser>();
         services.AddSingleton<IRequestParser, XmlRequestParser>();
-
-        services.AddScoped<IPersistenceService, DatabaseService>();
+        services.AddScoped<IResponseFactory, ResponseFactory>();
+        
 
         return services;
     }

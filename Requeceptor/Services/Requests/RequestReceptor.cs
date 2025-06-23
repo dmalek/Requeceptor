@@ -1,7 +1,7 @@
 ﻿using Requeceptor.Domain;
 using Requeceptor.Services.Parsers;
 
-namespace Requeceptor.Services;
+namespace Requeceptor.Services.Requests;
 
 public class RequestReceptor
 {

@@ -18,10 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\RequestLoggers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="appsettings.Development.json" />
   </ItemGroup>
 

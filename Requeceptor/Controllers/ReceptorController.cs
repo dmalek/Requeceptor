@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Requeceptor.Domain;
-using Requeceptor.Services;
 using Requeceptor.Services.Parsers;
 using Requeceptor.Services.Persistence;
+using Requeceptor.Services.Requests;
+using Requeceptor.Services.Responses;
 
 namespace Requeceptor.Controllers;
 
@@ -11,19 +12,22 @@ namespace Requeceptor.Controllers;
 [Route("r/{*path}")]// hvata sve unutar /r/*/*
 public class ReceptorController : ControllerBase
 {
+    private readonly ILogger<ReceptorController> _logger;
     private readonly IPersistenceService _requestLoggerService;
     private readonly IEnumerable<IRequestParser> _parsers;
-    private readonly ILogger<ReceptorController> _logger;
+    private readonly IResponseFactory _responseFactory;
 
     public ReceptorController(
         ILogger<ReceptorController> logger,
         IEnumerable<IRequestParser> parsers,
-        IPersistenceService requestLoggerService
+        IPersistenceService requestLoggerService,
+        IResponseFactory responseFactory
         )
     {
         _logger = logger;
         _parsers = parsers;
         _requestLoggerService = requestLoggerService;
+        _responseFactory = responseFactory;
     }
 
     [HttpPost]
@@ -40,24 +44,29 @@ public class ReceptorController : ControllerBase
 
         await _requestLoggerService.SaveAsync(receptorRequest.ToRequestRecord());
 
+        var ruleResponse = await _responseFactory.CreateResponseAsync(Request);
+        if (ruleResponse is not NotFoundResult)
+            return ruleResponse;
+
+        // fallback obrada
         switch (receptorRequest.RequestFormat)
         {
             case RequestFormat.Json:
-                return await HandleJson(receptorRequest.ActionName);
+                return await HandleJson();
             case RequestFormat.Xml:
-                return await HandleXml(receptorRequest.ActionName);
+                return await HandleXml();
             default:
-                return await Task.FromResult<IActionResult>(Ok()); ;
+                return Ok();
         }
     }
 
 
-    private Task<IActionResult> HandleJson(string? methodName)
+    private Task<IActionResult> HandleJson()
     {
-        return Task.FromResult<IActionResult>(Ok("JSON primljen."));
+        return Task.FromResult<IActionResult>(Ok("Ok"));
     }
 
-    private Task<IActionResult> HandleXml(string? methodName)
+    private Task<IActionResult> HandleXml()
     {
         string _soapOkResponse = @"<?xml version=""1.0"" encoding=""utf-8""?>
 <soap:Envelope xmlns:soap=""http://schemas.xmlsoap.org/soap/envelope/"">
@@ -69,6 +78,5 @@ public class ReceptorController : ControllerBase
 </soap:Envelope>";
 
         return Task.FromResult<IActionResult>(Content(_soapOkResponse, "text/xml"));
-        //return Task.FromResult<IActionResult>(Ok($"XML primljen. SOAP metoda: {methodName ?? "Nepoznata"}"));
     }
 }
