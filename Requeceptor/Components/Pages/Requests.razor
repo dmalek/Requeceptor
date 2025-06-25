@@ -20,8 +20,8 @@ else
 {
 <RadzenStack Orientation="Orientation.Vertical" Gap="0.5rem">
     <RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="10" AllowPaging="true"
-            PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true" TItem="RequestRecord" 
-            Data="@_requests" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" SelectionMode="DataGridSelectionMode.Single" @bind-Value=@_selectedRequests>
+            PagerHorizontalAlign="HorizontalAlign.Center" ShowPagingSummary="true" TItem="RequestRecord" 
+            Data="@_requests" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.And" SelectionMode="DataGridSelectionMode.Single" @bind-Value=@_selectedRequests>
         <PagingSummaryTemplate>
             <RadzenIcon Icon="database" Style="color: var(--rz-primary); font-size: var(--rz-pager-summary-font-size);" />
             Displaying page @context.CurrentPage of @context.NumberOfPages <b>(total @context.TotalCount records)</b>
