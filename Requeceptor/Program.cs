@@ -1,3 +1,4 @@
+using Radzen;
 using Requeceptor;
 using Requeceptor.Components;
 
@@ -10,9 +11,10 @@ builder.Configuration
     .AddJsonFile($"appsettings.{environment}.json", optional: false, reloadOnChange: true);
 
 builder.Services.AddControllers();
+builder.Services.AddRazorPages();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
-
+builder.Services.AddRadzenComponents();
 builder.Services.AddRequeceptor(builder.Configuration);
 
 var app = builder.Build();
