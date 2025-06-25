@@ -11,7 +11,8 @@ namespace Requeceptor.Components.Pages;
 
 public partial class Requests
 {
-    private PaginatedList<RequestRecord>? _requests = null;
+    private IQueryable<RequestRecord>? _requests = null;
+    private IList<RequestRecord> _selectedRequests;
 
     [Inject]
     private IPersistenceService? PersistenceService { get; set; }
@@ -47,8 +48,8 @@ public partial class Requests
         query = query.Case(!string.IsNullOrEmpty(Query), x => x.QueryString.Contains(Query.Replace("*", "%")));
 
         _requests = query
-            .OrderByDescending(x => x.ReceivedAt)
-            .ToPaginatedList(PageIndex, PageSize);
+            .OrderByDescending(x => x.ReceivedAt);
+            //.ToPaginatedList(PageIndex, PageSize);
 
         StateHasChanged();
     }
