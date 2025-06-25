@@ -77,6 +77,12 @@ public class ReceptorController : ControllerBase
   </soap:Body>
 </soap:Envelope>";
 
-        return Task.FromResult<IActionResult>(Content(_soapOkResponse, "text/xml"));
+        return Task.FromResult<IActionResult>(
+            new ContentResult
+            {
+                Content = _soapOkResponse,
+                ContentType = "text/xml; charset=utf-8",
+                StatusCode = 200
+            });
     }
 }

@@ -38,12 +38,13 @@ public class ResponseFactory : IResponseFactory
 
         var statusCode = TryParseStatus(matchingRule.ResponseStatus, out var code) ? code : 200;
         var content = matchingRule.ResponseBody ?? "";
+        var contentType = matchingRule.ResponseContentType ?? "application/json";
 
         return new ContentResult
         {
             Content = content,
             StatusCode = statusCode,
-            ContentType = "application/json"
+            ContentType = contentType
         };
     }
 
