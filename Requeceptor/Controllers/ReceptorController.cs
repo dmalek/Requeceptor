@@ -63,24 +63,20 @@ public class ReceptorController : ControllerBase
 
     private Task<IActionResult> HandleJson()
     {
-        return Task.FromResult<IActionResult>(Ok("Ok"));
+        return Task.FromResult<IActionResult>(Ok());
     }
 
     private Task<IActionResult> HandleXml()
     {
-        string _soapOkResponse = @"<?xml version=""1.0"" encoding=""utf-8""?>
+        string soapOkResponse = @"<?xml version=""1.0"" encoding=""utf-8""?>
 <soap:Envelope xmlns:soap=""http://schemas.xmlsoap.org/soap/envelope/"">
-  <soap:Body>
-    <LogResponse xmlns=""http://tempuri.org/"">
-      <Result>OK</Result>
-    </LogResponse>
-  </soap:Body>
+  <soap:Body />
 </soap:Envelope>";
 
         return Task.FromResult<IActionResult>(
             new ContentResult
             {
-                Content = _soapOkResponse,
+                Content = soapOkResponse,
                 ContentType = "text/xml; charset=utf-8",
                 StatusCode = 200
             });
