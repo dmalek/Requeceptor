@@ -1,0 +1,56 @@
+﻿@using System.Text.Json
+@using System.Xml
+@using System.Text
+
+
+<pre>
+    @FormatContent(Content)
+</pre>
+
+@code {
+    [Parameter]
+    public string? Content { get; set; }
+
+    private string FormatContent(string? body)
+    {
+        if (string.IsNullOrWhiteSpace(body))
+            return string.Empty;
+
+        try
+        {
+            body = body.Trim();
+
+            if (body.StartsWith("{") || body.StartsWith("["))
+            {
+                // Pretpostavi JSON
+                using var doc = JsonDocument.Parse(body);
+                return JsonSerializer.Serialize(doc, new JsonSerializerOptions { WriteIndented = true });
+            }
+            else if (body.StartsWith("<"))
+            {
+                // Pretpostavi XML
+                var xmlDoc = new XmlDocument();
+                xmlDoc.LoadXml(body);
+
+                var sb = new StringBuilder();
+                var settings = new XmlWriterSettings
+                    {
+                        Indent = true,
+                        IndentChars = "  ",
+                        NewLineChars = "\n",
+                        NewLineHandling = NewLineHandling.Replace
+                    };
+
+                using var writer = XmlWriter.Create(sb, settings);
+                xmlDoc.Save(writer);
+                return sb.ToString();
+            }
+
+            return body; // fallback ako nije prepoznat
+        }
+        catch
+        {
+            return body; // ako ne uspije parsiranje, prikaži kako je
+        }
+    }
+}

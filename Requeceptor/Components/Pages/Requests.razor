@@ -1,17 +1,12 @@
-﻿@rendermode InteractiveServer
-@page "/requests"
+﻿@page "/requests"
+@rendermode InteractiveServer
 @using Requeceptor.Domain
 @using System.Drawing
 @attribute [StreamRendering]
 
-
 <PageTitle>Requests</PageTitle>
 
-<strong>Requests</strong>
-
-@{
-    var rowIndex = 0;
-}
+<h1>Requests</h1>
 
 @if (_requests == null)
 {
@@ -47,14 +42,10 @@ else
                 <RadzenTabs>
                     <Tabs>
                         <RadzenTabsItem Text="Body">
-                            <pre>
-                                @FormatBody(_selectedRequests?.FirstOrDefault()?.Body)
-                            </pre>
+                            <MessageContent Content="@_selectedRequests?.FirstOrDefault()?.Body" />
                         </RadzenTabsItem>
                         <RadzenTabsItem Text="Headers">
-                            <pre>
-                                @_selectedRequests?.FirstOrDefault()?.Headers
-                            </pre>
+                             <MessageContent Content="@_selectedRequests?.FirstOrDefault()?.Headers" />
                         </RadzenTabsItem>
                     </Tabs>
                 </RadzenTabs>
