@@ -49,8 +49,9 @@ public partial class Requests
 
         _requests = query
             .OrderByDescending(x => x.ReceivedAt);
-            //.ToPaginatedList(PageIndex, PageSize);
+        //.ToPaginatedList(PageIndex, PageSize);
 
+        await Task.CompletedTask;
         StateHasChanged();
     }
 

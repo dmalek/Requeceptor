@@ -1,6 +1,7 @@
 ﻿@rendermode InteractiveServer
 @page "/requests"
 @using Requeceptor.Domain
+@using System.Drawing
 @attribute [StreamRendering]
 
 
@@ -24,6 +25,7 @@ else
                     PagerHorizontalAlign="HorizontalAlign.Center" ShowPagingSummary="true" TItem="RequestRecord" 
                     Data="@_requests" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.And" SelectionMode="DataGridSelectionMode.Single" @bind-Value=@_selectedRequests>
                 <PagingSummaryTemplate>
+                    <RadzenButton ButtonStyle="ButtonStyle.Secondary" Icon="refresh" Size="ButtonSize.Small" Click="@LoadRequests" Text="Refresh" Style="margin-right: 10px;" />
                     <RadzenIcon Icon="database" Style="color: var(--rz-primary); font-size: var(--rz-pager-summary-font-size);" />
                     Displaying page @context.CurrentPage of @context.NumberOfPages <b>(total @context.TotalCount records)</b>
                 </PagingSummaryTemplate>
