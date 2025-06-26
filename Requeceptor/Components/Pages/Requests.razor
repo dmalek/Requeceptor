@@ -51,7 +51,7 @@ else
                         </RadzenTabsItem>
                         <RadzenTabsItem Text="Headers">
                             <pre>
-                                @FormatBody(_selectedRequests?.FirstOrDefault()?.Headers)
+                                @_selectedRequests?.FirstOrDefault()?.Headers
                             </pre>
                         </RadzenTabsItem>
                     </Tabs>
