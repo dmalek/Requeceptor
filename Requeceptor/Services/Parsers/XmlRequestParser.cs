@@ -16,25 +16,37 @@ public class XmlRequestParser : IRequestParser
 
     public string? GetActionName(HttpRequest request, string body)
     {
+        string? actionName;
+
         if (request.Headers.TryGetValue("SOAPAction", out var soapAction))
         {
-            return soapAction.FirstOrDefault()?.Trim('"');
+            actionName = soapAction.FirstOrDefault()?.Trim('"');
         }
-
-        try
+        else
         {
-            var xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(body);
+            try
+            {
+                var xmlDoc = new XmlDocument();
+                xmlDoc.LoadXml(body);
 
-            var bodyNode = xmlDoc.GetElementsByTagName("soap:Body").Cast<XmlNode>().FirstOrDefault()
-                       ?? xmlDoc.GetElementsByTagName("s:Body").Cast<XmlNode>().FirstOrDefault()
-                       ?? xmlDoc.GetElementsByTagName("Body").Cast<XmlNode>().FirstOrDefault();
+                var bodyNode = xmlDoc.GetElementsByTagName("soap:Body").Cast<XmlNode>().FirstOrDefault()
+                           ?? xmlDoc.GetElementsByTagName("s:Body").Cast<XmlNode>().FirstOrDefault()
+                           ?? xmlDoc.GetElementsByTagName("Body").Cast<XmlNode>().FirstOrDefault();
 
-            return bodyNode?.FirstChild?.LocalName;
+                actionName = bodyNode?.FirstChild?.LocalName;
+            }
+            catch
+            {
+                actionName = null;
+            }
         }
-        catch
+
+        if (actionName is null)
         {
             return null;
         }
+
+        // Handle action names with namespace prefixes (e.g., "ns:ActionName")
+        return actionName.Contains(":") ? actionName.Split(':').Last() : actionName;
     }
 }
