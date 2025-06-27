@@ -3,13 +3,16 @@
 @using System.Text
 
 
-<pre>
+<pre style="@Style">
     @FormatContent(Content)
 </pre>
 
 @code {
     [Parameter]
     public string? Content { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
 
     private string FormatContent(string? body)
     {

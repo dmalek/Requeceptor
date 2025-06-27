@@ -5,8 +5,8 @@
 <RadzenLayout>
     <RadzenHeader>
         <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0">
-            <RadzenSidebarToggle Click="@(() => sidebar1Expanded = !sidebar1Expanded)" />
-            <RadzenLabel Text="Header" />
+            <RadzenSidebarToggle Click="@(() => sidebar1Expanded = !sidebar1Expanded)" Visible=true/>
+            <RadzenLabel Text="Request receptor" />
         </RadzenStack>
     </RadzenHeader>
     <RadzenSidebar @bind-Expanded="@sidebar1Expanded">

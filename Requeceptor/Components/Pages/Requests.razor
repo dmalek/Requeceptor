@@ -42,13 +42,13 @@ else
                 <RadzenTabs>
                     <Tabs>
                         <RadzenTabsItem Text="Body">
-                            <MessageContent Content="@_selectedRequest?.Body" />
+                            <MessageContent Content="@_selectedRequest?.Body" Style="width:100%;max-height:40em" />
                         </RadzenTabsItem>
                         <RadzenTabsItem Text="Headers">
-                             <MessageContent Content="@_selectedRequest?.Headers" />
+                             <MessageContent Content="@_selectedRequest?.Headers" Style="width:100%;max-height:40em" />
                         </RadzenTabsItem>
                         <RadzenTabsItem Text="Response">
-                             <MessageContent Content="@_selectedRequest?.ResponseBody" />
+                             <MessageContent Content="@_selectedRequest?.ResponseBody" Style="width:100%;max-height:40em"/>
                         </RadzenTabsItem>
                     </Tabs>
                 </RadzenTabs>

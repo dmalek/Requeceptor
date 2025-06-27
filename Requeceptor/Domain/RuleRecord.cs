@@ -16,7 +16,13 @@ public class RuleRecord
     public string? QueryString { get; set; }
 
     public string? ResponseStatus { get; set; }
+    
     public string? ResponseContentType { get; set; }
+    
     public string? ResponseBody { get; set; }
+
     public bool Enabled { get; set; }
+
+    [MaxLength(512)]
+    public string? Description { get; set; }
 }
