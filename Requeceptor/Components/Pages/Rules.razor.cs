@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.EntityFrameworkCore;
 using Requeceptor.Domain;
 using Requeceptor.Services.Persistence;
 
@@ -10,7 +11,7 @@ public partial class Rules
     private IList<RuleRecord> _selectedRules;
 
     [Inject]
-    private IPersistenceService? PersistenceService { get; set; }
+    private DatabaseContext? Database { get; set; }
 
 
     protected override async Task OnInitializedAsync()
@@ -20,16 +21,14 @@ public partial class Rules
     }
 
 
+
+
     private async Task LoadRules()
     {
-        if (PersistenceService == null)
-        {
-            return;
-        }
-        _rules = PersistenceService.Rules;
+        _rules = Database.Rules
+            .AsNoTracking();
 
         await Task.CompletedTask;
-        StateHasChanged();
     }
 
 }

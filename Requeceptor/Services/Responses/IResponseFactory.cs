@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Requeceptor.Domain;
 
 namespace Requeceptor.Services.Responses;
 
 public interface IResponseFactory
 {
-    Task<IActionResult> CreateResponseAsync(HttpRequest request);
+    Task<ContentResult> CreateResponseAsync(HttpRequest request, RequestFormat requestFormat);
 }

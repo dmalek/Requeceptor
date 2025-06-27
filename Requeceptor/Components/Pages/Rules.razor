@@ -25,25 +25,25 @@ else
                     Displaying page @context.CurrentPage of @context.NumberOfPages <b>(total @context.TotalCount records)</b>
                 </PagingSummaryTemplate>
                 <Columns>
-                    <RadzenDataGridColumn Property="@nameof(RuleRecord.Id)" Filterable="false" Title="ID" Width="80px" TextAlign="TextAlign.Center" />
+                    <RadzenDataGridColumn Property="@nameof(RuleRecord.Enabled)" Filterable="true" Width="100px" Title="Enabled">
+                        <Template Context="data">
+                            <RadzenCheckBox TabIndex="-1" TriState="false" Value="@data.Enabled" TValue="bool" ReadOnly=true />
+                        </Template>
+                    </RadzenDataGridColumn>
+                    <RadzenDataGridColumn Property="@nameof(RuleRecord.Id)" Filterable="true" Title="ID" Width="80px" TextAlign="TextAlign.Center" Visible=false/>
+                    <RadzenDataGridColumn Property="@nameof(RuleRecord.Method)" Title="Method" Width="100px" />
                     <RadzenDataGridColumn Property="@nameof(RuleRecord.Path)" Title="Path" />
                     <RadzenDataGridColumn Property="@nameof(RuleRecord.QueryString)" Title="QueryString" />
-                    <RadzenDataGridColumn Property="@nameof(RuleRecord.ResponseStatus)" Title="Action" MaxWidth="200px" />
-                    <RadzenDataGridColumn Property="@nameof(RuleRecord.ResponseContentType)" Title="ContentType" Width="160px" />
-                    <RadzenDataGridColumn Property="@nameof(RuleRecord.Active)" Title="Length" Width="100px" Visible=false />
+                    <RadzenDataGridColumn Property="@nameof(RuleRecord.QueryString)" Title="Action" MaxWidth="200px" />
+                    <RadzenDataGridColumn Property="@nameof(RuleRecord.ResponseStatus)" Title="ContentType" Width="160px" />
+                    <RadzenDataGridColumn Property="@nameof(RuleRecord.ResponseContentType)" Title="Length" Width="100px" Visible=false />
                 </Columns>
             </RadzenDataGrid>
         </RadzenColumn>
 
         <RadzenColumn SizeSM="12" SizeMD="12" SizeLG="12" SizeXL="4">
             <RadzenCard Style="height:100%">
-                <RadzenTabs>
-                    <Tabs>
-                        <RadzenTabsItem Text="Body">
-                            <MessageContent Content="@_selectedRules?.FirstOrDefault()?.ResponseBody" />                            
-                        </RadzenTabsItem>
-                    </Tabs>
-                </RadzenTabs>
+                <RuleEdit ViewModel="@_selectedRules?.FirstOrDefault()" OnSubmit="@LoadRules" />
             </RadzenCard>
         </RadzenColumn>
     </RadzenRow>

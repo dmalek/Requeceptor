@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.EntityFrameworkCore;
 using Requeceptor.Domain;
 using Requeceptor.Services.Persistence;
-using System.Text;
-using System.Text.Json;
-using System.Xml;
 
 namespace Requeceptor.Components.Pages;
 
@@ -11,9 +9,10 @@ public partial class Requests
 {
     private IQueryable<RequestRecord>? _requests = null;
     private IList<RequestRecord> _selectedRequests;
+    private RequestRecord? _selectedRequest => _selectedRequests?.FirstOrDefault();
 
     [Inject]
-    private IPersistenceService? PersistenceService { get; set; }
+    private DatabaseContext DbContext{ get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -23,13 +22,9 @@ public partial class Requests
 
     private async Task LoadRequests()
     {
-        if (PersistenceService == null)
-        {
-            return;
-        }
-
-        _requests = PersistenceService.Requests
-            .OrderByDescending(x => x.ReceivedAt);
+        _requests = DbContext.Requests
+            .AsNoTracking()
+            .OrderByDescending(x => x.ReceivedAt);            
 
         await Task.CompletedTask;
         StateHasChanged();

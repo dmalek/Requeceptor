@@ -45,4 +45,8 @@ public class RequestRecord
     public string? LocalIpAddress { get; set; }
 
     public DateTime ReceivedAt { get; set; } = DateTime.Now;
+
+    public string? ResponseStatus { get; set; }
+    public string? ResponseContentType { get; set; }
+    public string? ResponseBody { get; set; }
 }

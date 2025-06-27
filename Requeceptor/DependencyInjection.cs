@@ -31,7 +31,6 @@ public static class DependencyInjection
             }
         });
 
-        services.AddScoped<IPersistenceService, DatabaseService>();
         services.AddSingleton<IRequestParser, JsonRequestParser>();
         services.AddSingleton<IRequestParser, XmlRequestParser>();
         services.AddScoped<IResponseFactory, ResponseFactory>();

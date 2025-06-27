@@ -42,10 +42,13 @@ else
                 <RadzenTabs>
                     <Tabs>
                         <RadzenTabsItem Text="Body">
-                            <MessageContent Content="@_selectedRequests?.FirstOrDefault()?.Body" />
+                            <MessageContent Content="@_selectedRequest?.Body" />
                         </RadzenTabsItem>
                         <RadzenTabsItem Text="Headers">
-                             <MessageContent Content="@_selectedRequests?.FirstOrDefault()?.Headers" />
+                             <MessageContent Content="@_selectedRequest?.Headers" />
+                        </RadzenTabsItem>
+                        <RadzenTabsItem Text="Response">
+                             <MessageContent Content="@_selectedRequest?.ResponseBody" />
                         </RadzenTabsItem>
                     </Tabs>
                 </RadzenTabs>

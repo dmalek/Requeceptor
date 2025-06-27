@@ -4,6 +4,7 @@ using Requeceptor.Services.Parsers;
 using Requeceptor.Services.Persistence;
 using Requeceptor.Services.Requests;
 using Requeceptor.Services.Responses;
+using System.Net;
 
 namespace Requeceptor.Controllers;
 
@@ -13,20 +14,20 @@ namespace Requeceptor.Controllers;
 public class ReceptorController : ControllerBase
 {
     private readonly ILogger<ReceptorController> _logger;
-    private readonly IPersistenceService _requestLoggerService;
+    private readonly DatabaseContext _database;
     private readonly IEnumerable<IRequestParser> _parsers;
     private readonly IResponseFactory _responseFactory;
 
     public ReceptorController(
         ILogger<ReceptorController> logger,
         IEnumerable<IRequestParser> parsers,
-        IPersistenceService requestLoggerService,
+        DatabaseContext database,
         IResponseFactory responseFactory
         )
     {
         _logger = logger;
         _parsers = parsers;
-        _requestLoggerService = requestLoggerService;
+        _database = database;
         _responseFactory = responseFactory;
     }
 
@@ -41,44 +42,21 @@ public class ReceptorController : ControllerBase
     {
         var receptorRequest = new RequestReceptor(Request, RouteData, HttpContext, _parsers);
         await receptorRequest.Inspect();
+        
+        ContentResult ruleResponse = await _responseFactory.CreateResponseAsync(Request, receptorRequest.RequestFormat);
 
-        await _requestLoggerService.SaveAsync(receptorRequest.ToRequestRecord());
+        var requestRecord = receptorRequest.ToRequestRecord();
 
-        var ruleResponse = await _responseFactory.CreateResponseAsync(Request);
-        if (ruleResponse is not NotFoundResult)
-            return ruleResponse;
+        var statusCode = ruleResponse.StatusCode ?? 200;
+        requestRecord.ResponseStatus = Enum.IsDefined(typeof(HttpStatusCode), statusCode)
+            ? $"{statusCode} {((HttpStatusCode)statusCode)}"
+            : $"{statusCode}";
+        requestRecord.ResponseContentType = ruleResponse.ContentType;
+        requestRecord.ResponseBody = ruleResponse.Content;
 
-        // fallback obrada
-        switch (receptorRequest.RequestFormat)
-        {
-            case RequestFormat.Json:
-                return await HandleJson();
-            case RequestFormat.Xml:
-                return await HandleXml();
-            default:
-                return Ok();
-        }
-    }
+        _database.Requests.Add(requestRecord);
+        await _database.SaveChangesAsync();
 
-
-    private Task<IActionResult> HandleJson()
-    {
-        return Task.FromResult<IActionResult>(Ok());
-    }
-
-    private Task<IActionResult> HandleXml()
-    {
-        string soapOkResponse = @"<?xml version=""1.0"" encoding=""utf-8""?>
-<soap:Envelope xmlns:soap=""http://schemas.xmlsoap.org/soap/envelope/"">
-  <soap:Body />
-</soap:Envelope>";
-
-        return Task.FromResult<IActionResult>(
-            new ContentResult
-            {
-                Content = soapOkResponse,
-                ContentType = "text/xml; charset=utf-8",
-                StatusCode = 200
-            });
+        return ruleResponse;
     }
 }
