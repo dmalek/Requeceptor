@@ -15,7 +15,10 @@ builder.Services.AddRazorPages();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddRadzenComponents();
-builder.Services.AddRequeceptor(builder.Configuration);
+
+builder.Services.AddRequeceptor(config => builder.Configuration.GetSection("RouteOptions").Bind(config));
+builder.Services.UseRequeceptorPersistence(config => builder.Configuration.GetSection("Database").Bind(config));
+
 
 var app = builder.Build();
 
@@ -32,8 +35,7 @@ app.UseAntiforgery();
 app.MapRazorComponents<App>()
    .AddInteractiveServerRenderMode();
 
-app.InitializePersistence(); // Inicijalizacija baze podataka
+app.InitializeRequeceptorPersistence();
+app.MapRequeceptorController();
 
-app.MapRequeceptorRoute();
-app.MapControllers();
 app.Run();

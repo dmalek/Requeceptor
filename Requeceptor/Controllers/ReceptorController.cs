@@ -8,9 +8,6 @@ using System.Net;
 
 namespace Requeceptor.Controllers;
 
-[ApiController]
-//[Route("{*path}")] // Hvatamo sve rute
-[Route("r/{*path}")]// hvata sve unutar /r/*/*
 public class ReceptorController : ControllerBase
 {
     private readonly ILogger<ReceptorController> _logger;

@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Options;
 
 namespace Requeceptor.Components;
 
 public partial class App : ComponentBase
 {
     [Inject]
-    private IConfiguration Configuration { get; set; } = default!;
+    private IOptions<RouteOptions> Configuration { get; set; } = default!;
 
     private string GetBaseUrl()
-    {
-        var bu = Configuration["BaseUrl"];
-        return string.IsNullOrWhiteSpace(bu) ? "/" : bu;
+    {        
+        return Configuration.Value?.BaseRoute ?? "/";
     }
 }
