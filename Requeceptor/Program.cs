@@ -7,8 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Uèitavanje konfiguracije s environment-specific json
 var environment = builder.Environment.EnvironmentName;
 builder.Configuration
-    .SetBasePath(Directory.GetCurrentDirectory())
-    .AddJsonFile($"appsettings.{environment}.json", optional: false, reloadOnChange: true);
+    .SetBasePath(Directory.GetCurrentDirectory())    
+    .AddJsonFile($"appsettings.{environment}.json", optional: false, reloadOnChange: true);    
 
 builder.Services.AddControllers();
 builder.Services.AddRazorPages();
