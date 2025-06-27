@@ -16,7 +16,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddRadzenComponents();
 
-builder.Services.AddRequeceptor(config => builder.Configuration.GetSection("RouteOptions").Bind(config));
+builder.Services.AddRequeceptor(config => builder.Configuration.GetSection("Requeceptor").Bind(config));
 builder.Services.UseRequeceptorPersistence(config => builder.Configuration.GetSection("Database").Bind(config));
 
 

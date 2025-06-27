@@ -7,7 +7,7 @@ public class DatabaseOptions
     public Dictionary<string, string> ConnectionStrings { get; set; } = new();
 }
 
-public class RouteOptions
+public class RequeceptorOptions
 {
     public string? BaseRoute { get; set; }
     public string? ApiRoute { get; set; }

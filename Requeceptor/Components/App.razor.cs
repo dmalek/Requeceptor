@@ -6,7 +6,7 @@ namespace Requeceptor.Components;
 public partial class App : ComponentBase
 {
     [Inject]
-    private IOptions<RouteOptions> Configuration { get; set; } = default!;
+    private IOptions<RequeceptorOptions> Configuration { get; set; } = default!;
 
     private string GetBaseUrl()
     {        

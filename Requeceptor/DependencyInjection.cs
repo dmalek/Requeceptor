@@ -9,9 +9,9 @@ namespace Requeceptor;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddRequeceptor(this IServiceCollection services, Action<RouteOptions> config)
+    public static IServiceCollection AddRequeceptor(this IServiceCollection services, Action<RequeceptorOptions> config)
     {
-        services.Configure<RouteOptions>(config);
+        services.Configure<RequeceptorOptions>(config);
         services.AddSingleton<IRequestParser, JsonRequestParser>();
         services.AddSingleton<IRequestParser, XmlRequestParser>();
         services.AddScoped<IResponseFactory, ResponseFactory>();
@@ -51,15 +51,18 @@ public static class DependencyInjection
 
     public static WebApplication MapRequeceptorController(this WebApplication app)
     {
-        var options = app.Services.GetService<IOptions<RouteOptions>>();
-
-        var apiRoute = options?.Value?.ApiRoute ?? "api";
+        RequeceptorOptions? routeOptions;
+        using (var scope = app.Services.CreateScope())
+        {
+            routeOptions = scope.ServiceProvider.GetRequiredService<IOptions<RequeceptorOptions>>().Value;
+        }        
+        var apiRoute = routeOptions?.ApiRoute ?? "api";
 
         apiRoute = apiRoute.TrimEnd('/');
 
         app.MapControllerRoute(
             name: "Receptor",
-            pattern: "{apiRoute}/{*path}",
+            pattern: $"{apiRoute}/{{*path}}",
             defaults: new { controller = "Receptor", action = "CatchAll" });
 
         return app;
