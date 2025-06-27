@@ -18,12 +18,8 @@ public class ResponseFactory : IResponseFactory
         _database = database ?? throw new ArgumentNullException(nameof(database));
     }
 
-    public async Task<ContentResult> CreateResponseAsync(HttpRequest request, RequestFormat requestFormat)
+    public async Task<ContentResult> CreateResponseAsync(RequestFormat requestFormat, string method, string path, string query)
     {
-        var path = request.Path.Value ?? "/";
-        var query = request.QueryString.HasValue ? request.QueryString.Value : "";
-        var method = request.Method.ToUpperInvariant();
-
         RuleRecord? matchingRule = await GetMatchingRule(path, query, method);
 
         // Ako nema odgovarajućeg pravila, vratimo default odgovor
@@ -46,7 +42,7 @@ public class ResponseFactory : IResponseFactory
 
     private async Task<RuleRecord?> GetMatchingRule(string path, string query, string method)
     {
-        var allRules = await _database.Rules            
+        var allRules = await _database.Rules
             .AsNoTracking()
             .Where(x => x.Enabled)
             .ToListAsync();
@@ -57,7 +53,7 @@ public class ResponseFactory : IResponseFactory
                         );
 
         var universalRule = rulesForAction.FirstOrDefault(x => x.Method == "*");
-        var methodRule = rulesForAction.FirstOrDefault( x => x.Method.Equals(method, StringComparison.OrdinalIgnoreCase));
+        var methodRule = rulesForAction.FirstOrDefault(x => x.Method.Equals(method, StringComparison.OrdinalIgnoreCase));
 
         return methodRule ?? universalRule;
     }
@@ -97,7 +93,7 @@ public class ResponseFactory : IResponseFactory
 
 
     private bool TryParseStatus(string? status, out int statusCode)
-    {        
+    {
         if (int.TryParse(status?.Split(" ", StringSplitOptions.RemoveEmptyEntries).FirstOrDefault(), out statusCode))
             return true;
 

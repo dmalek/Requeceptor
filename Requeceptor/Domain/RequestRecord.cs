@@ -22,7 +22,7 @@ public class RequestRecord
     public string? Action { get; set; }
 
     [MaxLength(10)]
-    public string? Method { get; set; }
+    public string Method { get; set; }
 
     [MaxLength(20)]
     public string? Protocol { get; set; }
